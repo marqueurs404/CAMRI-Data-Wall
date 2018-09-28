@@ -46,11 +46,18 @@ class Commodities extends Component {
           autoplaySpeed={5000}
           draggable
           afterChange={this.onChange}>
-          <CarouselItem />
-          <CarouselItem />
-          <CarouselItem />
-          <CarouselItem />
-          <CarouselItem />
+          <CarouselItem>
+            <h3>Hello</h3>
+          </CarouselItem>
+          <CarouselItem>
+            <h3>Hello 2</h3>
+          </CarouselItem>
+          <CarouselItem>
+            <h3>Hello 3</h3>
+          </CarouselItem>
+          <CarouselItem>
+            <h3>Hello 4</h3>
+          </CarouselItem>
         </Carousel>
       </MainLayout>
     );
