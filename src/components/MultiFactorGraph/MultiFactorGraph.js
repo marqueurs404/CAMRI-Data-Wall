@@ -6,12 +6,18 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip
+  Tooltip,
+  Label
 } from 'recharts';
 
 import './MultiFactorGraph.css';
 
 class MultiFactorGraph extends Component {
+  state = {
+    height: 600,
+    width: 1050
+  };
+
   render() {
     let data = [
       { date: '11/9/17', uv: 4000, pv: 2400, amt: 2400 },
@@ -31,13 +37,17 @@ class MultiFactorGraph extends Component {
     ];
     return (
       <AreaChart
-        width={850}
-        height={550}
+        width={this.state.width}
+        height={this.state.height}
         data={data}
-        margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="date" />
-        <YAxis />
+        margin={{ top: 30, right: 30, left: 0, bottom: 30 }}>
+        <CartesianGrid
+          strokeDasharray="3 3"
+          vertical={false}
+          horizontal={false}
+        />
+        <XAxis tick={{ fill: 'white' }} dataKey="date" />
+        <YAxis tick={{ fill: 'white' }} />
         <Tooltip />
         <Area type="monotone" dataKey="uv" stroke="#8884d8" fill="#8884d8" />
       </AreaChart>

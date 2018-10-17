@@ -44,13 +44,24 @@ class Commodities extends Component {
         <Carousel
           autoplay
           autoplaySpeed={5000}
+          adaptiveHeight={false}
+          variableWidth={false}
+          centerPadding={0}
+          centerMode
+          slidesToShow={3}
+          slidesToScroll={1}
+          swipe
           draggable
+          infinite
+          dots={false}
           afterChange={this.onChange}>
           <CarouselItem>
             <h3>Hello</h3>
           </CarouselItem>
           <CarouselItem>
-            <h3>Hello 2</h3>
+            <h3>
+              Hello <br />2
+            </h3>
           </CarouselItem>
           <CarouselItem>
             <h3>Hello 3</h3>
