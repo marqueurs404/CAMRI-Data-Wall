@@ -1,11 +1,12 @@
 //Graph for Multi-Factor model
 import React, { Component } from 'react';
 import {
-  VictoryBar,
+  VictoryArea,
   VictoryChart,
   VictoryTheme,
   VictoryTooltip,
-  VictoryAxis
+  VictoryAxis,
+  VictoryVoronoiContainer
 } from 'victory';
 
 import './MultiFactorGraph.css';
@@ -29,7 +30,15 @@ class MultiFactorGraph extends Component {
       { date: '11/10/18', price: 3490, label: 3490, type: 'profitability' }
     ];
     return (
-      <VictoryChart theme={VictoryTheme.material} domainPadding={10}>
+      <VictoryChart
+        width={1050}
+        height={500}
+        containerComponent={
+          <VictoryVoronoiContainer labels={d => `$${d.price}`} />
+        }
+        labelComponent={
+          <VictoryTooltip cornerRadius={0} flyoutStyle={{ fill: 'white' }} />
+        }>
         <VictoryAxis
           // tickValues specifies both the number of ticks and where
           // they are placed on the axis
@@ -41,11 +50,19 @@ class MultiFactorGraph extends Component {
           // tickFormat specifies how ticks should be displayed
           tickFormat={x => `$${x}`}
         />
-        <VictoryBar
-          labelComponent={<VictoryTooltip activateData={true} />}
+        {/* labelComponent={<VictoryTooltip activateData={true} />} */}
+        <VictoryArea
           data={data}
           x="date"
           y="price"
+          style={{
+            data: {
+              strokeWidth: 3,
+              fillOpacity: 0.7,
+              fill: this.props.fill,
+              stroke: this.props.stroke
+            }
+          }}
         />
       </VictoryChart>
     );

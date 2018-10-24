@@ -6,6 +6,7 @@ import { Col, Row, Carousel } from 'antd';
 import MainLayout from './MainLayout/MainLayout';
 import Clock from './Clock/Clock';
 import CarouselItem from './CarouselItem/CarouselItem';
+import CommodityTab from './CommodityTab/CommodityTab';
 
 import './Commodities.css';
 
@@ -47,7 +48,7 @@ class Commodities extends Component {
           draggable
           afterChange={this.onChange}>
           <CarouselItem>
-            <h3>Hello</h3>
+            <CommodityTab />
           </CarouselItem>
           <CarouselItem>
             <h3>Hello 2</h3>

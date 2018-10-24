@@ -1,4 +1,4 @@
-//Item for Carousel in Commodities
+//Item for Carousel
 import React, { Component } from 'react';
 import { Row, Col } from 'antd';
 

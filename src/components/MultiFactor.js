@@ -24,7 +24,7 @@ class MultiFactor extends Component {
           draggable
           afterChange={this.onChange}>
           <CarouselItem>
-            <MultiFactorGraph />
+            <MultiFactorGraph stroke="orange" fill="orange" />
           </CarouselItem>
           <CarouselItem>
             <MultiFactorGraph />
