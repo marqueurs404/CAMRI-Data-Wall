@@ -1,11 +1,11 @@
 .ant-carousel .slick-slide {
   text-align: center;
-  height: 66vh;
-  line-height: 66vh;
-  /* background: #364d79; */
+  height: 74vh;
+  line-height: 74vh;
+  background: #000;
   overflow: hidden;
 }
 
 .ant-carousel .slick-slide .carousel-item h3 {
-  /* color: #fff; */
+  color: #fff;
 }

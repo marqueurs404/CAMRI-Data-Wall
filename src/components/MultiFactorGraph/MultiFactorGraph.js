@@ -6,52 +6,71 @@ import {
   VictoryTheme,
   VictoryTooltip,
   VictoryAxis,
-  VictoryVoronoiContainer
+  VictoryVoronoiContainer,
+  VictoryLabel
 } from 'victory';
 
 import './MultiFactorGraph.css';
 
+const styles = {
+  whiteStyle: {
+    axis: { stroke: 'white' },
+    axisLabel: { fontSize: 20, padding: 30, fill: 'white' },
+    ticks: { stroke: 'white', size: 5 },
+    tickLabels: { fontSize: 15, padding: 0, fill: 'white' }
+  },
+  title: {
+    textAnchor: 'start',
+    verticalAnchor: 'end',
+    fill: 'white',
+    fontFamily: 'inherit',
+    fontSize: '24px',
+    fontWeight: 'bold'
+  }
+};
+
 class MultiFactorGraph extends Component {
   render() {
-    const data = [
-      { date: '11/9/17', price: 4000, label: 4000, type: 'profitability' },
-      { date: '11/10/17', price: 3000, label: 3000, type: 'profitability' },
-      { date: '11/11/17', price: 2000, label: 2000, type: 'profitability' },
-      { date: '11/12/17', price: 2780, label: 2780, type: 'profitability' },
-      { date: '11/1/18', price: 1890, label: 1890, type: 'profitability' },
-      { date: '11/2/18', price: 2390, label: 2390, type: 'profitability' },
-      { date: '11/3/18', price: 3390, label: 3390, type: 'profitability' },
-      { date: '11/4/18', price: 2390, label: 2390, type: 'profitability' },
-      { date: '11/5/18', price: 1390, label: 1390, type: 'profitability' },
-      { date: '11/6/18', price: 2690, label: 2690, type: 'profitability' },
-      { date: '11/7/18', price: 2190, label: 2190, type: 'profitability' },
-      { date: '11/8/18', price: 4390, label: 4390, type: 'profitability' },
-      { date: '11/9/18', price: 5390, label: 5390, type: 'profitability' },
-      { date: '11/10/18', price: 3490, label: 3490, type: 'profitability' }
-    ];
+    const data = this.props.data;
+
+    //convert date to quarterly values
+    let tickValues = [];
+    let tickFormat = [];
+    data.forEach(element => {
+      let dateParts = element.date.split('/');
+      let month = dateParts[1];
+      let quarters = ['3', '6', '9', '12'];
+      if (quarters.indexOf(month) !== -1) {
+        tickValues.push(element.date);
+        let tickFormatVal = `Q${month / 3}/${dateParts[2]}`;
+        tickFormat.push(tickFormatVal);
+      }
+    });
+
     return (
       <VictoryChart
-        width={1050}
-        height={500}
-        containerComponent={
-          <VictoryVoronoiContainer labels={d => `$${d.price}`} />
-        }
-        labelComponent={
-          <VictoryTooltip cornerRadius={0} flyoutStyle={{ fill: 'white' }} />
-        }>
+        width={1150}
+        height={550}
+        padding={{ left: 50, right: 50, top: -50, bottom: 50 }}
+        domainPadding={{ y: 10 }}
+        containerComponent={<VictoryVoronoiContainer />}>
         <VictoryAxis
-          // tickValues specifies both the number of ticks and where
-          // they are placed on the axis
-          tickValues={['11/9/17', '11/12/17', '11/3/18', '11/6/18', '11/9/18']}
-          tickFormat={['Q3/17', 'Q4/17', 'Q1/18', 'Q2/18', 'Q3/18']}
+          tickValues={tickValues}
+          tickFormat={tickFormat}
+          style={styles.whiteStyle}
         />
+
         <VictoryAxis
           dependentAxis
-          // tickFormat specifies how ticks should be displayed
           tickFormat={x => `$${x}`}
+          style={styles.whiteStyle}
         />
-        {/* labelComponent={<VictoryTooltip activateData={true} />} */}
+
         <VictoryArea
+          labels={d => `Price: $${d.price} \n Date: ${d.date}`}
+          labelComponent={
+            <VictoryTooltip cornerRadius={0} flyoutStyle={{ fill: 'white' }} />
+          }
           data={data}
           x="date"
           y="price"
@@ -63,6 +82,12 @@ class MultiFactorGraph extends Component {
               stroke: this.props.stroke
             }
           }}
+        />
+        <VictoryLabel
+          x={0}
+          y={-74}
+          style={styles.title}
+          text={this.props.title}
         />
       </VictoryChart>
     );

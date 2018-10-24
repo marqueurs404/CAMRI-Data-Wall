@@ -22,7 +22,8 @@ class Commodities extends Component {
           <title>Commodities</title>
         </Helmet>
         {/* Clocks */}
-        <div style={{ background: '#ECECEC', padding: '20px', height: '24vh' }}>
+        <div
+          style={{ background: '#ECECEC', padding: '12px', height: '160px' }}>
           <Row gutter={16}>
             <Col span={3}>
               <Clock country="London" tz="Europe/London" />

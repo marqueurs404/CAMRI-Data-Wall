@@ -1,12 +1,3 @@
 .VictoryContainer {
   margin: 0 auto;
 }
-
-.VictoryContainer svg text {
-  /* //Removes the labels */
-  display: none;
-}
-.VictoryContainer svg g text {
-  /* //Preserves the axis information, if needed. */
-  display: block;
-}
