@@ -49,16 +49,30 @@ class Commodities extends Component {
           draggable
           afterChange={this.onChange}>
           <CarouselItem>
-            <CommodityTab />
+            <CommodityTab
+              title="Straits Times Index"
+              currentPrice={1000}
+              date="10/09/18"
+            />
           </CarouselItem>
           <CarouselItem>
-            <h3>Hello 2</h3>
+            <CommodityTab title="S&P 500" currentPrice={1000} date="10/09/18" />
           </CarouselItem>
           <CarouselItem>
-            <h3>Hello 3</h3>
+            <CommodityTab title="Gold" currentPrice={1000} date="10/09/18" />
           </CarouselItem>
           <CarouselItem>
-            <h3>Hello 4</h3>
+            <CommodityTab title="Wheat" currentPrice={1000} date="10/09/18" />
+          </CarouselItem>
+          <CarouselItem>
+            <CommodityTab title="Oil" currentPrice={1000} date="10/09/18" />
+          </CarouselItem>
+          <CarouselItem>
+            <CommodityTab
+              title="Baltic Dry Index"
+              currentPrice={1000}
+              date="10/09/18"
+            />
           </CarouselItem>
         </Carousel>
       </MainLayout>
