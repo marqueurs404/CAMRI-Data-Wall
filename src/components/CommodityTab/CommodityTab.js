@@ -16,10 +16,10 @@ let styles = {
     fontSize: '2.5em'
   },
   arrowStyle: {
-    boxShadow: '3px 3px 5px 6px #101010'
+    boxShadow: '1px 1px 1px 1px #101010'
   },
   imageStyle: {
-    boxShadow: '3px 3px 5px 6px #101010'
+    boxShadow: '1px 1px 1px 1px #101010'
   }
 };
 

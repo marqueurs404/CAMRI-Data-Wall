@@ -8,7 +8,6 @@ import Clock from './Clock/Clock';
 import CarouselItem from './CarouselItem/CarouselItem';
 import CommodityTab from './CommodityTab/CommodityTab';
 
-import './Commodities.css';
 import StockImage from '../assets/others.png';
 import BalticImage from '../assets/Baltic.png';
 import GoldImage from '../assets/gold.png';
@@ -109,16 +108,8 @@ class Commodities extends Component {
         <Carousel
           autoplay
           autoplaySpeed={5000}
-          adaptiveHeight={false}
-          variableWidth={false}
-          centerPadding={0}
-          centerMode
-          slidesToShow={3}
-          slidesToScroll={1}
           swipe
           draggable
-          infinite
-          dots={false}
           afterChange={this.onChange}>
           {commodityData}
         </Carousel>
