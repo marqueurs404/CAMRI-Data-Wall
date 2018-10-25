@@ -12,7 +12,6 @@
     "react-moment": "^0.7.9",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.0.3",
-    "recharts": "^1.2.0",
     "victory": "^30.4.1"
   },
   "scripts": {
