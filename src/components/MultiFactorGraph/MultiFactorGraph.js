@@ -30,6 +30,24 @@ const styles = {
 };
 
 class MultiFactorGraph extends Component {
+  state = { width: 0, height: 0 };
+
+  componentDidMount() {
+    this.updateWindowDimensions();
+    window.addEventListener('resize', this.updateWindowDimensions.bind(this));
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener(
+      'resize',
+      this.updateWindowDimensions.bind(this)
+    );
+  }
+
+  updateWindowDimensions() {
+    this.setState({ width: window.innerWidth, height: window.innerHeight });
+  }
+
   render() {
     const data = this.props.data;
 
@@ -49,9 +67,8 @@ class MultiFactorGraph extends Component {
 
     return (
       <VictoryChart
-        width={1150}
-        height={550}
-        padding={{ left: 50, right: 50, top: -50, bottom: 50 }}
+        width={1250}
+        height={this.state.height}
         domainPadding={{ y: 10 }}
         containerComponent={<VictoryVoronoiContainer />}>
         <VictoryAxis
@@ -85,7 +102,7 @@ class MultiFactorGraph extends Component {
         />
         <VictoryLabel
           x={0}
-          y={-74}
+          y={32}
           style={styles.title}
           text={this.props.title}
         />

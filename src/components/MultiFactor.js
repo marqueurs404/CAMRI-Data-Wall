@@ -27,8 +27,79 @@ class MultiFactor extends Component {
       { date: '11/12/18', price: 11490, type: 'profitability' },
       { date: '11/1/19', price: 15590, type: 'profitability' },
       { date: '11/2/19', price: 20990, type: 'profitability' },
-      { date: '11/3/19', price: 17990, type: 'profitability' }
+      { date: '11/3/19', price: 17990, type: 'profitability' },
+      { date: '11/9/17', price: 5690, type: 'CAM' },
+      { date: '11/10/17', price: 3690, type: 'CAM' },
+      { date: '11/11/17', price: 2690, type: 'CAM' },
+      { date: '11/12/17', price: 1690, type: 'CAM' },
+      { date: '11/1/18', price: 6690, type: 'CAM' },
+      { date: '11/2/18', price: 7690, type: 'CAM' },
+      { date: '11/3/18', price: 8690, type: 'CAM' },
+      { date: '11/4/18', price: 9690, type: 'CAM' },
+      { date: '11/5/18', price: 11490, type: 'CAM' },
+      { date: '11/6/18', price: 13690, type: 'CAM' },
+      { date: '11/7/18', price: 14690, type: 'CAM' },
+      { date: '11/8/18', price: 16690, type: 'CAM' },
+      { date: '11/9/18', price: 13690, type: 'CAM' },
+      { date: '11/10/18', price: 17690, type: 'CAM' },
+      { date: '11/11/18', price: 1990, type: 'CAM' },
+      { date: '11/12/18', price: 21690, type: 'CAM' },
+      { date: '11/1/19', price: 17690, type: 'CAM' },
+      { date: '11/2/19', price: 25690, type: 'CAM' },
+      { date: '11/3/19', price: 19690, type: 'CAM' }
     ];
+
+    let carouselItems = [
+      {
+        stroke: 'yellow',
+        fill: 'yellow',
+        title: 'Profitability',
+        data: data.filter(e => e.type === 'profitability')
+      },
+      {
+        stroke: 'cyan',
+        fill: 'cyan',
+        title: 'CAM',
+        data: data.filter(e => e.type === 'CAM')
+      },
+      {
+        stroke: 'lightgreen',
+        fill: 'lightgreen',
+        title: 'Valuation',
+        data: data.filter(e => e.type === 'profitability')
+      },
+      {
+        stroke: 'white',
+        fill: 'white',
+        title: 'BSE',
+        data: data.filter(e => e.type === 'profitability')
+      },
+      {
+        stroke: 'red',
+        fill: 'red',
+        title: 'UFR',
+        data: data.filter(e => e.type === 'profitability')
+      },
+      {
+        stroke: 'violet',
+        fill: 'violet',
+        title: 'LNS',
+        data: data.filter(e => e.type === 'profitability')
+      }
+    ];
+
+    carouselItems = carouselItems.map(e => {
+      return (
+        <CarouselItem key={e.title}>
+          <MultiFactorGraph
+            stroke={e.stroke}
+            fill={e.fill}
+            data={e.data}
+            title={e.title}
+          />
+        </CarouselItem>
+      );
+    });
 
     return (
       <MainLayout>
@@ -39,55 +110,12 @@ class MultiFactor extends Component {
           <h1>Multi Factor Model</h1>
         </div>
 
-        {/* Carousel */}
         <Carousel
           autoplay
           autoplaySpeed={5000}
           draggable
           afterChange={this.onChange}>
-          <CarouselItem>
-            <MultiFactorGraph
-              stroke="yellow"
-              fill="yellow"
-              data={data}
-              title="Profitability"
-            />
-          </CarouselItem>
-          <CarouselItem>
-            <MultiFactorGraph
-              stroke="cyan"
-              fill="cyan"
-              data={data}
-              title="CAM"
-            />
-          </CarouselItem>
-          <CarouselItem>
-            <MultiFactorGraph
-              stroke="lightgreen"
-              fill="lightgreen"
-              data={data}
-              title="Valuation"
-            />
-          </CarouselItem>
-          <CarouselItem>
-            <MultiFactorGraph
-              stroke="white"
-              fill="white"
-              data={data}
-              title="BSE"
-            />
-          </CarouselItem>
-          <CarouselItem>
-            <MultiFactorGraph stroke="red" fill="red" data={data} title="UFR" />
-          </CarouselItem>
-          <CarouselItem>
-            <MultiFactorGraph
-              stroke="violet"
-              fill="violet"
-              data={data}
-              title="LNS"
-            />
-          </CarouselItem>
+          {carouselItems}
         </Carousel>
       </MainLayout>
     );
