@@ -1,14 +1,12 @@
-//Item for Carousel in Commodities
+//Item for Carousel
 import React, { Component } from 'react';
 import { Row, Col } from 'antd';
 
 class CarouselItem extends Component {
   render() {
     return (
-      <Row align="middle" justify="center">
-        <Col>
-          <div className="carousel-item">{this.props.children}</div>
-        </Col>
+      <Row className="carousel-item" type="flex" justify="center">
+        <Col span={16}>{this.props.children}</Col>
       </Row>
     );
   }

@@ -47,7 +47,7 @@ class AffixMenu extends Component {
     );
 
     let affix = (
-      <Affix style={{ position: 'absolute', bottom: 26, right: 100 }}>
+      <Affix style={{ position: 'absolute', bottom: 22, right: 100 }}>
         {dropdown}
       </Affix>
     );

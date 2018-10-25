@@ -1,56 +1,112 @@
 //Graph for Multi-Factor model
 import React, { Component } from 'react';
 import {
-  AreaChart,
-  Area,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Label
-} from 'recharts';
+  VictoryArea,
+  VictoryChart,
+  VictoryTheme,
+  VictoryTooltip,
+  VictoryAxis,
+  VictoryVoronoiContainer,
+  VictoryLabel
+} from 'victory';
 
 import './MultiFactorGraph.css';
 
+const styles = {
+  whiteStyle: {
+    axis: { stroke: 'white' },
+    axisLabel: { fontSize: 20, padding: 30, fill: 'white' },
+    ticks: { stroke: 'white', size: 5 },
+    tickLabels: { fontSize: 15, padding: 0, fill: 'white' }
+  },
+  title: {
+    textAnchor: 'start',
+    verticalAnchor: 'end',
+    fill: 'white',
+    fontFamily: 'inherit',
+    fontSize: '24px',
+    fontWeight: 'bold'
+  }
+};
+
 class MultiFactorGraph extends Component {
-  state = {
-    height: 600,
-    width: 1050
-  };
+  state = { width: 0, height: 0 };
+
+  componentDidMount() {
+    this.updateWindowDimensions();
+    window.addEventListener('resize', this.updateWindowDimensions.bind(this));
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener(
+      'resize',
+      this.updateWindowDimensions.bind(this)
+    );
+  }
+
+  updateWindowDimensions() {
+    this.setState({ width: window.innerWidth, height: window.innerHeight });
+  }
 
   render() {
-    let data = [
-      { date: '11/9/17', uv: 4000, pv: 2400, amt: 2400 },
-      { date: '11/10/17', uv: 3000, pv: 1398, amt: 2210 },
-      { date: '11/11/17', uv: 2000, pv: 9800, amt: 2290 },
-      { date: '11/12/17', uv: 2780, pv: 3908, amt: 2000 },
-      { date: '11/1/18', uv: 1890, pv: 4800, amt: 2181 },
-      { date: '11/2/18', uv: 2390, pv: 3800, amt: 2500 },
-      { date: '11/2/18', uv: 3390, pv: 3800, amt: 2500 },
-      { date: '11/2/18', uv: 2390, pv: 3800, amt: 2500 },
-      { date: '11/2/18', uv: 1390, pv: 3800, amt: 2500 },
-      { date: '11/2/18', uv: 2690, pv: 3800, amt: 2500 },
-      { date: '11/2/18', uv: 2190, pv: 3800, amt: 2500 },
-      { date: '11/2/18', uv: 4390, pv: 3800, amt: 2500 },
-      { date: '11/2/18', uv: 5390, pv: 3800, amt: 2500 },
-      { date: '11/3/18', uv: 3490, pv: 4300, amt: 2100 }
-    ];
+    const data = this.props.data;
+
+    //convert date to quarterly values
+    let tickValues = [];
+    let tickFormat = [];
+    data.forEach(element => {
+      let dateParts = element.date.split('/');
+      let month = dateParts[1];
+      let quarters = ['3', '6', '9', '12'];
+      if (quarters.indexOf(month) !== -1) {
+        tickValues.push(element.date);
+        let tickFormatVal = `Q${month / 3}/${dateParts[2]}`;
+        tickFormat.push(tickFormatVal);
+      }
+    });
+
     return (
-      <AreaChart
-        width={this.state.width}
+      <VictoryChart
+        width={1250}
         height={this.state.height}
-        data={data}
-        margin={{ top: 30, right: 30, left: 0, bottom: 30 }}>
-        <CartesianGrid
-          strokeDasharray="3 3"
-          vertical={false}
-          horizontal={false}
+        domainPadding={{ y: 10 }}
+        containerComponent={<VictoryVoronoiContainer />}>
+        <VictoryAxis
+          tickValues={tickValues}
+          tickFormat={tickFormat}
+          style={styles.whiteStyle}
         />
-        <XAxis tick={{ fill: 'white' }} dataKey="date" />
-        <YAxis tick={{ fill: 'white' }} />
-        <Tooltip />
-        <Area type="monotone" dataKey="uv" stroke="#8884d8" fill="#8884d8" />
-      </AreaChart>
+
+        <VictoryAxis
+          dependentAxis
+          tickFormat={x => `$${x}`}
+          style={styles.whiteStyle}
+        />
+
+        <VictoryArea
+          labels={d => `Price: $${d.price} \n Date: ${d.date}`}
+          labelComponent={
+            <VictoryTooltip cornerRadius={0} flyoutStyle={{ fill: 'white' }} />
+          }
+          data={data}
+          x="date"
+          y="price"
+          style={{
+            data: {
+              strokeWidth: 3,
+              fillOpacity: 0.7,
+              fill: this.props.fill,
+              stroke: this.props.stroke
+            }
+          }}
+        />
+        <VictoryLabel
+          x={0}
+          y={32}
+          style={styles.title}
+          text={this.props.title}
+        />
+      </VictoryChart>
     );
   }
 }
