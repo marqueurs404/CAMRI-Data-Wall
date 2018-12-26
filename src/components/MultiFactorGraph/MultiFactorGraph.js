@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import {
   VictoryArea,
   VictoryChart,
-  VictoryTheme,
+  //   VictoryTheme,
   VictoryTooltip,
   VictoryAxis,
   VictoryVoronoiContainer,

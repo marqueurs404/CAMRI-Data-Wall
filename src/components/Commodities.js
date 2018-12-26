@@ -1,7 +1,7 @@
 //Commodities Page for CAMRI Data Wall
 import React, { Component } from 'react';
 import { Helmet } from 'react-helmet';
-import { Col, Row, Carousel } from 'antd';
+import { Col, Row, Carousel, message } from 'antd';
 
 import MainLayout from './MainLayout/MainLayout';
 import Clock from './Clock/Clock';
@@ -14,57 +14,130 @@ import GoldImage from '../assets/gold.png';
 import WheatImage from '../assets/wheat.png';
 import OilImage from '../assets/oil.png';
 
+const API = 'http://172.29.27.115:5000/';
+
+//warning: FETCH_INTERVAL and CAROUSEL_INTERVAL should be interspersed, the fetching interferes with the carousel sliding
+const FETCH_INTERVAL = 5000;
+const CAROUSEL_INTERVAL = 4000;
+
+const SECURITIES_IMAGES = {
+  'XAU Curncy': GoldImage,
+  'COA Comdty': OilImage,
+  'GI1 Index': WheatImage,
+  'SPX INDEX': StockImage,
+  'FSSTI Index': StockImage,
+  'HSI Index': StockImage,
+  'BDIY Index': BalticImage
+};
+const SECURITIES_FULL_TITLES = {
+  'XAU Curncy': 'Gold',
+  'COA Comdty': 'Brent Oil',
+  'GI1 Index': 'Goldman Commodity Index',
+  'SPX INDEX': 'S&P 500 Index',
+  'FSSTI Index': 'Straits Times Index',
+  'HSI Index': 'Hang Seng Index',
+  'BDIY Index': 'Baltic Dry Index'
+};
+
+const DEFAULT_DATA = [
+  {
+    TITLE: 'Straits Times Index',
+    LAST_PRICE: 700.55,
+    NET_CHANGE: 100,
+    PCT_CHANGE: 0.07,
+    TIME_RETRIEVED: '10/09/18',
+    IMAGE: StockImage
+  },
+  {
+    TITLE: 'S&P500',
+    LAST_PRICE: 1200.51,
+    NET_CHANGE: 100,
+    PCT_CHANGE: 0.07,
+    TIME_RETRIEVED: '10/09/18',
+    IMAGE: StockImage
+  },
+  {
+    TITLE: 'Gold',
+    LAST_PRICE: 1900.77,
+    NET_CHANGE: 100,
+    PCT_CHANGE: 0.07,
+    TIME_RETRIEVED: '10/09/18',
+    IMAGE: GoldImage
+  },
+  {
+    TITLE: 'Wheat',
+    LAST_PRICE: 1400.01,
+    NET_CHANGE: 100,
+    PCT_CHANGE: 0.07,
+    TIME_RETRIEVED: '10/09/18',
+    IMAGE: WheatImage
+  },
+  {
+    TITLE: 'Crude Oil',
+    LAST_PRICE: 1100.99,
+    NET_CHANGE: 100,
+    PCT_CHANGE: 0.07,
+    TIME_RETRIEVED: '10/09/18',
+    IMAGE: OilImage
+  },
+  {
+    TITLE: 'Baltic Dry Index',
+    LAST_PRICE: 1500.12,
+    NET_CHANGE: 100,
+    PCT_CHANGE: 0.07,
+    TIME_RETRIEVED: '10/09/18',
+    IMAGE: BalticImage
+  }
+];
+
 class Commodities extends Component {
-  onChange(a, b, c) {
-    console.log(a, b, c);
+  state = {
+    success: false,
+    data: null
+  };
+
+  //when the commodities page is fully loaded, do a call on an interval to fetch data from the API
+  componentDidMount() {
+    function callApi() {
+      fetch(API, { mode: 'cors' })
+        .then(response => {
+          if (response.ok) {
+            if (this.state.success === false) {
+              message.success('Successfully connected to Bloomberg API!');
+            }
+            return response.json();
+          }
+          throw new Error('Network response not ok');
+        })
+        .then(data => {
+          // Preprocess data into a suitable format for display
+          let data_arr = [];
+          for (let security in data) {
+            let security_obj = {};
+            security_obj = {
+              ...data[security],
+              ...{
+                TITLE: SECURITIES_FULL_TITLES[security],
+                IMAGE: SECURITIES_IMAGES[security]
+              }
+            };
+            data_arr.push(security_obj);
+          }
+          this.setState({ success: true, data: data_arr });
+        })
+        .catch(console.log);
+    }
+
+    callApi.bind(this)();
+    let intervalId = setInterval(callApi.bind(this), FETCH_INTERVAL);
+    this.setState({ intervalId: intervalId });
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.state.intervalId);
   }
 
   render() {
-    let commodityData = [
-      {
-        title: 'Straits Times Index',
-        currentPrice: 700.55,
-        previousPrice: 100,
-        date: '10/09/18',
-        image: StockImage
-      },
-      {
-        title: 'S&P500',
-        currentPrice: 1200.51,
-        previousPrice: 100,
-        date: '10/09/18',
-        image: StockImage
-      },
-      {
-        title: 'Gold',
-        currentPrice: 1900.77,
-        previousPrice: 100,
-        date: '10/09/18',
-        image: GoldImage
-      },
-      {
-        title: 'Wheat',
-        currentPrice: 1400.01,
-        previousPrice: 100,
-        date: '10/09/18',
-        image: WheatImage
-      },
-      {
-        title: 'Crude Oil',
-        currentPrice: 1100.99,
-        previousPrice: 100,
-        date: '10/09/18',
-        image: OilImage
-      },
-      {
-        title: 'Baltic Dry Index',
-        currentPrice: 1500.12,
-        previousPrice: 100,
-        date: '10/09/18',
-        image: BalticImage
-      }
-    ];
-
     let clocks = [
       { country: 'London', tz: 'Europe/London' },
       { country: 'Mumbai', tz: 'Asia/Kolkata' },
@@ -73,16 +146,22 @@ class Commodities extends Component {
       { country: 'New York', tz: 'America/New_York' }
     ];
 
-    // Commodity data
-    commodityData = commodityData.map(element => {
+    // Data Tabs
+    let dataTabs = DEFAULT_DATA;
+    if (this.state.data) {
+      dataTabs = this.state.data;
+      //   console.log(dataTabs);
+    }
+    dataTabs = dataTabs.map(element => {
       return (
-        <CarouselItem key={element.title}>
+        <CarouselItem key={element.TITLE}>
           <CommodityTab
-            title={element.title}
-            currentPrice={element.currentPrice}
-            previousPrice={element.previousPrice}
-            date={element.date}
-            image={element.image}
+            title={element.TITLE}
+            lastPrice={element.LAST_PRICE}
+            netChange={element.NET_CHANGE}
+            pctChange={element.PCT_CHANGE}
+            timeRetrieved={element.TIME_RETRIEVED}
+            image={element.IMAGE}
           />
         </CarouselItem>
       );
@@ -100,18 +179,13 @@ class Commodities extends Component {
     return (
       <MainLayout>
         <Helmet>
-          <title>Commodities</title>
+          <title>Markets</title>
         </Helmet>
         <div style={{ background: '#ECECEC', padding: '12px', height: '20vh' }}>
           <Row gutter={16}>{clocks}</Row>
         </div>
-        <Carousel
-          autoplay
-          autoplaySpeed={5000}
-          swipe
-          draggable
-          afterChange={this.onChange}>
-          {commodityData}
+        <Carousel autoplay autoplaySpeed={CAROUSEL_INTERVAL}>
+          {dataTabs}
         </Carousel>
       </MainLayout>
     );
