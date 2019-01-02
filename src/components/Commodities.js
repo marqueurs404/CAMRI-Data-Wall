@@ -97,7 +97,6 @@ class Commodities extends Component {
   componentDidMount() {
     //function which calls the api for market data
     function callApi() {
-      console.log('fetching');
       fetch(API, { mode: 'cors' })
         .then(response => {
           if (response.ok) {

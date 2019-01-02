@@ -21,7 +21,7 @@
     "eject": "react-scripts eject"
   },
   "author": "Marcus Ong <marcus.ong404@gmail.com>",
-  "homepage": "https://github.com/marqueurs404",
+  "homepage": ".",
   "browserslist": [
     ">0.2%",
     "not dead",

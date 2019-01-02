@@ -11,6 +11,9 @@ CAMRI Data Walls is a single-page web app developed using the React library. It 
 
 ## Deployment
 
+Local Deployment: Follow the instructions on [Create-React-App/Deployment/Static Server](https://facebook.github.io/create-react-app/docs/deployment#static-server)
+You will need to have [Node](https://nodejs.org/) installed.
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
