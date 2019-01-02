@@ -3,9 +3,16 @@ import { Card } from 'antd';
 import Moment from 'react-moment';
 
 const styles = {
-  cardStyle: {
+  shortCardStyle: {
     textAlign: 'center',
     fontSize: '24px',
+    fontWeight: 'bold',
+    width: '100%',
+    padding: '16px'
+  },
+  tallCardStyle: {
+    textAlign: 'center',
+    fontSize: '30px',
     fontWeight: 'bold',
     width: '100%',
     padding: '16px'
@@ -17,6 +24,12 @@ const styles = {
   bodyStyle: {
     background: '#34383b',
     color: 'white'
+  },
+  tallClockStyle: {
+    marginTop: '2vh'
+  },
+  shortClockStyle: {
+    marginTop: '1vh'
   }
 };
 
@@ -41,11 +54,28 @@ class Clock extends Component {
 
   render() {
     return (
-      <Card>
-        <Card.Grid style={{ ...styles.cardStyle, ...styles.headerStyle }}>
+      <Card
+        style={{
+          ...(window.matchMedia('(min-height: 800px)').matches
+            ? styles.tallClockStyle
+            : styles.shortClockStyle)
+        }}>
+        <Card.Grid
+          style={{
+            ...(window.matchMedia('(min-height: 800px)').matches
+              ? styles.tallCardStyle
+              : styles.shortCardStyle),
+            ...styles.headerStyle
+          }}>
           {this.props.country}
         </Card.Grid>
-        <Card.Grid style={{ ...styles.cardStyle, ...styles.bodyStyle }}>
+        <Card.Grid
+          style={{
+            ...(window.matchMedia('(min-height: 800px)').matches
+              ? styles.tallCardStyle
+              : styles.shortCardStyle),
+            ...styles.bodyStyle
+          }}>
           <Moment format="HH:mm:ss" tz={this.props.tz}>
             {this.state.date}
           </Moment>

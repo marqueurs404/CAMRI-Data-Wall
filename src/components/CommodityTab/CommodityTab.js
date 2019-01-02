@@ -8,33 +8,39 @@ import downArrowImg from '../../assets/down.png';
 let styles = {
   textStyle: {
     color: '#fff',
-    fontSize: '1em',
+    fontSize: window.matchMedia('(min-height: 800px)').matches
+      ? '1.5em'
+      : '1em',
     textAlign: 'center'
   },
   titleStyle: {
-    fontSize: '2.5em'
+    fontSize: window.matchMedia('(min-height: 800px)').matches ? '3em' : '2.5em'
   },
   priceStyle: {
-    fontSize: '2.5em'
+    fontSize: window.matchMedia('(min-height: 800px)').matches
+      ? '3.5em'
+      : '2.5em'
   },
   priceChangeStyle: {
     textAlign: 'left',
-    fontSize: '2.5em',
+    fontSize: window.matchMedia('(min-height: 800px)').matches
+      ? '3.5em'
+      : '2.5em',
     paddingLeft: 5,
     margin: 0
   },
   arrowStyle: {
     display: 'block',
     marginLeft: 'auto',
-    width: 40,
-    height: 40
+    width: window.matchMedia('(min-height: 800px)').matches ? 60 : 40,
+    height: window.matchMedia('(min-height: 800px)').matches ? 60 : 40
   },
   imageStyle: {
     display: 'block',
     marginLeft: 'auto',
     marginRight: 'auto',
-    width: 250,
-    height: 250
+    width: window.matchMedia('(min-height: 800px)').matches ? 350 : 250,
+    height: window.matchMedia('(min-height: 800px)').matches ? 350 : 250
   }
 };
 
