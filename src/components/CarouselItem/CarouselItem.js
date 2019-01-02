@@ -6,7 +6,7 @@ class CarouselItem extends Component {
   render() {
     return (
       <Row className="carousel-item" type="flex" justify="center">
-        <Col span={16}>{this.props.children}</Col>
+        <Col span={24}>{this.props.children}</Col>
       </Row>
     );
   }

@@ -7,32 +7,58 @@ import downArrowImg from '../../assets/down.png';
 
 let styles = {
   textStyle: {
-    color: '#fff'
+    color: '#fff',
+    fontSize: '1em',
+    textAlign: 'center'
   },
   titleStyle: {
-    fontSize: '3em'
-  },
-  dataStyle: {
     fontSize: '2.5em'
   },
+  priceStyle: {
+    fontSize: '2.5em'
+  },
+  priceChangeStyle: {
+    textAlign: 'left',
+    fontSize: '2.5em',
+    paddingLeft: 5,
+    margin: 0
+  },
   arrowStyle: {
-    width: 120,
-    height: 120,
-    boxShadow: '1px 1px 1px 1px #101010'
+    display: 'block',
+    marginLeft: 'auto',
+    width: 40,
+    height: 40
   },
   imageStyle: {
-    width: 300,
-    height: 300,
-    boxShadow: '1px 1px 1px 1px #101010'
+    display: 'block',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    width: 250,
+    height: 250
   }
 };
 
 class CommodityTab extends Component {
+  shouldComponentUpdate(nextProps) {
+    if (
+      nextProps.lastPrice !== this.props.lastPrice ||
+      nextProps.netChange !== this.props.netChange
+    ) {
+      return true;
+    } else return false;
+  }
+
   render() {
     let arrowImg = this.props.netChange > 0 ? upArrowImg : downArrowImg;
 
     return (
-      <Row className="carousel-item" style={{ width: '100%', height: '72vh' }}>
+      <Row
+        className="carousel-item"
+        style={{
+          width: '100%',
+          height: '72vh',
+          paddingTop: '3vh'
+        }}>
         {/* Title */}
         <Row>
           <Col span={24}>
@@ -41,41 +67,53 @@ class CommodityTab extends Component {
             </h1>
           </Col>
         </Row>
-        {/* Info */}
+
+        {/* Image */}
         <Row>
-          {/* Image */}
-          <Col span={12}>
+          <Col span={24}>
             <img style={styles.imageStyle} src={this.props.image} alt="" />
           </Col>
+        </Row>
 
+        <br />
+
+        {/* Info */}
+        <Row>
           {/* Data */}
-          <Col span={12}>
+          <Col span={24}>
             <h2 style={styles.textStyle}>
               {`Price as of `}
               <Moment format="DD MMM YYYY, hh:mm:ss A" tz={this.props.tz}>
                 {new Date(this.props.timeRetrieved)}
               </Moment>
+              {`:`}
             </h2>
 
             <h2
-              style={{ ...styles.textStyle, ...styles.dataStyle }}>{`$${Number(
-              this.props.lastPrice
-            ).toFixed(2)}`}</h2>
+              style={{
+                ...styles.textStyle,
+                ...styles.priceStyle
+              }}>{`$${Number(this.props.lastPrice).toFixed(2)}`}</h2>
 
             <h2 style={styles.textStyle}>Price Change (%) </h2>
 
-            <Col span={8}>
-              <img style={styles.arrowStyle} src={arrowImg} alt="" />
-            </Col>
+            <Row type="flex" style={{ alignItems: 'center' }}>
+              <Col span={8}>
+                <img style={styles.arrowStyle} src={arrowImg} alt="" />
+              </Col>
 
-            <Col span={12}>
-              <h2 style={{ ...styles.textStyle, ...styles.dataStyle }}>
-                {`${Number(this.props.netChange).toFixed(2)}`}
-              </h2>
-              <h2 style={{ ...styles.textStyle, ...styles.dataStyle }}>
-                {`(${Number(this.props.pctChange).toFixed(2)}%)`}
-              </h2>
-            </Col>
+              <Col span={16}>
+                <h2
+                  style={{
+                    ...styles.textStyle,
+                    ...styles.priceChangeStyle,
+                    color: this.props.netChange > 0 ? '#1dcc92' : '#ff433d'
+                  }}>
+                  {`${Number(this.props.netChange).toFixed(2)} `}
+                  {`(${Number(this.props.pctChange).toFixed(2)}%)`}
+                </h2>
+              </Col>
+            </Row>
           </Col>
         </Row>
       </Row>

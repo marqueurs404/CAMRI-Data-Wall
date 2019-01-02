@@ -15,10 +15,8 @@ import WheatImage from '../assets/wheat.png';
 import OilImage from '../assets/oil.png';
 
 const API = 'http://172.29.27.115:5000/';
-
-//warning: FETCH_INTERVAL and CAROUSEL_INTERVAL should be interspersed, the fetching interferes with the carousel sliding
-const FETCH_INTERVAL = 5000;
-const CAROUSEL_INTERVAL = 4000;
+const FETCH_INTERVAL = 1000;
+const CAROUSEL_INTERVAL = 5000;
 
 const SECURITIES_IMAGES = {
   'XAU Curncy': GoldImage,
@@ -96,9 +94,10 @@ class Commodities extends Component {
     data: null
   };
 
-  //when the commodities page is fully loaded, do a call on an interval to fetch data from the API
   componentDidMount() {
+    //function which calls the api for market data
     function callApi() {
+      console.log('fetching');
       fetch(API, { mode: 'cors' })
         .then(response => {
           if (response.ok) {
@@ -128,29 +127,38 @@ class Commodities extends Component {
         .catch(console.log);
     }
 
+    //function which loops the carousel
+    function carouselAutoplay() {
+      this.slider.next();
+    }
+
     callApi.bind(this)();
-    let intervalId = setInterval(callApi.bind(this), FETCH_INTERVAL);
-    this.setState({ intervalId: intervalId });
+    this.fetchInterval = setInterval(callApi.bind(this), FETCH_INTERVAL);
+    this.carouselInterval = setInterval(
+      carouselAutoplay.bind(this),
+      CAROUSEL_INTERVAL
+    );
   }
 
   componentWillUnmount() {
-    clearInterval(this.state.intervalId);
+    clearInterval(this.fetchInterval);
+    clearInterval(this.carouselInterval);
   }
 
   render() {
     let clocks = [
-      { country: 'London', tz: 'Europe/London' },
-      { country: 'Mumbai', tz: 'Asia/Kolkata' },
-      { country: 'Singapore', tz: 'Asia/Singapore' },
+      { country: 'Sydney', tz: 'Australia/Sydney' },
       { country: 'Tokyo', tz: 'Asia/Tokyo' },
+      { country: 'Singapore', tz: 'Asia/Singapore' },
+      { country: 'Mumbai', tz: 'Asia/Kolkata' },
+      { country: 'London', tz: 'Europe/London' },
       { country: 'New York', tz: 'America/New_York' }
     ];
 
-    // Data Tabs
+    // Carousel
     let dataTabs = DEFAULT_DATA;
     if (this.state.data) {
       dataTabs = this.state.data;
-      //   console.log(dataTabs);
     }
     dataTabs = dataTabs.map(element => {
       return (
@@ -167,6 +175,18 @@ class Commodities extends Component {
       );
     });
 
+    let carousel = (
+      <Carousel
+        ref={slider => (this.slider = slider)}
+        slidesToShow={3}
+        dots={false}
+        speed={1500}
+        pauseOnHover={false}
+        infinite={true}>
+        {dataTabs}
+      </Carousel>
+    );
+
     // Clocks
     clocks = clocks.map(element => {
       return (
@@ -181,12 +201,24 @@ class Commodities extends Component {
         <Helmet>
           <title>Markets</title>
         </Helmet>
-        <div style={{ background: '#ECECEC', padding: '12px', height: '20vh' }}>
-          <Row gutter={16}>{clocks}</Row>
+        <div
+          style={{
+            background: '#ECECEC',
+            padding: '12px',
+            height: '20vh'
+          }}>
+          <Row
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              display: 'flex',
+              width: 'auto'
+            }}
+            gutter={16}>
+            {clocks}
+          </Row>
         </div>
-        <Carousel autoplay autoplaySpeed={CAROUSEL_INTERVAL}>
-          {dataTabs}
-        </Carousel>
+        {carousel}
       </MainLayout>
     );
   }
