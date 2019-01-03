@@ -53,30 +53,26 @@ class Clock extends Component {
   }
 
   render() {
+    let isTall = window.matchMedia('(min-height: 1000px)').matches;
+
     return (
       <Card
         style={{
-          ...(window.matchMedia('(min-height: 800px)').matches
-            ? styles.tallClockStyle
-            : styles.shortClockStyle)
+          ...(isTall ? styles.tallClockStyle : styles.shortClockStyle)
         }}>
         <Card.Grid
           style={{
-            ...(window.matchMedia('(min-height: 800px)').matches
-              ? styles.tallCardStyle
-              : styles.shortCardStyle),
+            ...(isTall ? styles.tallCardStyle : styles.shortCardStyle),
             ...styles.headerStyle
           }}>
           {this.props.country}
         </Card.Grid>
         <Card.Grid
           style={{
-            ...(window.matchMedia('(min-height: 800px)').matches
-              ? styles.tallCardStyle
-              : styles.shortCardStyle),
+            ...(isTall ? styles.tallCardStyle : styles.shortCardStyle),
             ...styles.bodyStyle
           }}>
-          <Moment format="HH:mm:ss" tz={this.props.tz}>
+          <Moment format="HH:mm" tz={this.props.tz}>
             {this.state.date}
           </Moment>
         </Card.Grid>

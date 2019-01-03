@@ -1,19 +1,20 @@
 import React from 'react';
 import { Layout } from 'antd';
-import PoweredByImage from '../../assets/powered2.png';
+import PoweredByImage from '../../assets/powered.png';
 import CamriImage from '../../assets/CAMRI-logo2.png';
 
 const styles = {
   poweredByImgStyle: {
     position: 'absolute',
-    left: '50%',
-    transform: 'translate(-50%, -50%)'
+    left: '80%',
+    transform: 'translate(-50%, -17%)',
+    height: '60px'
   },
   CamriImgStyle: {
     position: 'absolute',
     left: '0%',
-    transform: 'translate(5%, -50%)',
-    height: '65px'
+    transform: 'translate(3%, -25%)',
+    height: '80px'
   }
 };
 
@@ -24,7 +25,7 @@ const LayoutFooter = props => (
       width: '100%',
       left: 0,
       bottom: 0,
-      height: '8vh',
+      height: '12vh',
       padding: '4px 20px'
     }}>
     <span style={{ fontSize: '16px', color: 'white' }}>

@@ -8,10 +8,12 @@ import Clock from './Clock/Clock';
 import CarouselItem from './CarouselItem/CarouselItem';
 import CommodityTab from './CommodityTab/CommodityTab';
 
-import StockImage from '../assets/others.png';
+import SnpImage from '../assets/snp.png';
+import StiImage from '../assets/sti.png';
+import HsiImage from '../assets/hsi.png';
 import BalticImage from '../assets/Baltic.png';
 import GoldImage from '../assets/gold.png';
-import WheatImage from '../assets/wheat.png';
+import WheatImage from '../assets/wheatgoldman.png';
 import OilImage from '../assets/oil.png';
 
 const API = 'http://172.29.27.115:5000/';
@@ -22,9 +24,9 @@ const SECURITIES_IMAGES = {
   'XAU Curncy': GoldImage,
   'COA Comdty': OilImage,
   'GI1 Index': WheatImage,
-  'SPX INDEX': StockImage,
-  'FSSTI Index': StockImage,
-  'HSI Index': StockImage,
+  'SPX INDEX': SnpImage,
+  'FSSTI Index': StiImage,
+  'HSI Index': HsiImage,
   'BDIY Index': BalticImage
 };
 const SECURITIES_FULL_TITLES = {
@@ -44,15 +46,23 @@ const DEFAULT_DATA = [
     NET_CHANGE: 100,
     PCT_CHANGE: 0.07,
     TIME_RETRIEVED: '10/09/18',
-    IMAGE: StockImage
+    IMAGE: StiImage
   },
   {
     TITLE: 'S&P500',
+    LAST_PRICE: 3014.58,
+    NET_CHANGE: 100,
+    PCT_CHANGE: 0.07,
+    TIME_RETRIEVED: '10/09/18',
+    IMAGE: SnpImage
+  },
+  {
+    TITLE: 'Hang Seng Index',
     LAST_PRICE: 1200.51,
     NET_CHANGE: 100,
     PCT_CHANGE: 0.07,
     TIME_RETRIEVED: '10/09/18',
-    IMAGE: StockImage
+    IMAGE: SnpImage
   },
   {
     TITLE: 'Gold',
@@ -63,10 +73,10 @@ const DEFAULT_DATA = [
     IMAGE: GoldImage
   },
   {
-    TITLE: 'Wheat',
-    LAST_PRICE: 1400.01,
-    NET_CHANGE: 100,
-    PCT_CHANGE: 0.07,
+    TITLE: 'Goldman Commodity Index',
+    LAST_PRICE: 377.01,
+    NET_CHANGE: 10,
+    PCT_CHANGE: 0.1,
     TIME_RETRIEVED: '10/09/18',
     IMAGE: WheatImage
   },
