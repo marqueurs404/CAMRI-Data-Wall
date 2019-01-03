@@ -1,6 +1,6 @@
 # CAMRI Data Walls
 
-![data-wall-preview](https://giphy.com/embed/1zKehWC3oXA9VZz1jJ)
+![data-wall-preview](https://media.giphy.com/media/1zKehWC3oXA9VZz1jJ/giphy.gif)
 
 CAMRI Data Walls is a single-page web app developed using the React library. It receives market price data through an API and displays it in near real-time updates.
 
