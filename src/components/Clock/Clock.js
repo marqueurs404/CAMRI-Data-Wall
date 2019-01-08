@@ -8,11 +8,11 @@ const styles = {
     fontSize: '24px',
     fontWeight: 'bold',
     width: '100%',
-    padding: '16px'
+    padding: '12px'
   },
   tallCardStyle: {
     textAlign: 'center',
-    fontSize: '30px',
+    fontSize: '36px',
     fontWeight: 'bold',
     width: '100%',
     padding: '16px'

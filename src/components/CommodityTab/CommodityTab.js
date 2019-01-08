@@ -41,19 +41,19 @@ class CommodityTab extends Component {
     const styles = {
       textStyle: {
         color: '#fff',
-        fontSize: isTall ? '1.5em' : '1em',
+        fontSize: isTall ? '30px' : '24px',
         textAlign: 'center'
       },
       titleStyle: {
-        fontSize: isTall ? '3em' : '2.5em'
+        fontSize: isTall ? '48px' : '36px'
       },
       priceStyle: {
-        fontSize: isTall ? '4.5em' : '3.5em',
+        fontSize: isTall ? '66px' : '48px',
         fontWeight: 'bold'
       },
       priceChangeStyle: {
         textAlign: 'left',
-        fontSize: isTall ? '3em' : '2.5em',
+        fontSize: isTall ? '48px' : '36px',
         fontWeight: 'bold',
         paddingLeft: 5,
         margin: 0

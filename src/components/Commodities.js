@@ -20,23 +20,18 @@ const API = 'http://172.29.27.115:5000/';
 const FETCH_INTERVAL = 1000;
 const CAROUSEL_INTERVAL = 5000;
 
-const SECURITIES_IMAGES = {
-  'XAU Curncy': GoldImage,
-  'COA Comdty': OilImage,
-  'GI1 Index': WheatImage,
-  'SPX INDEX': SnpImage,
-  'FSSTI Index': StiImage,
-  'HSI Index': HsiImage,
-  'BDIY Index': BalticImage
-};
-const SECURITIES_FULL_TITLES = {
-  'XAU Curncy': 'Gold',
-  'COA Comdty': 'Brent Oil',
-  'GI1 Index': 'Goldman Commodity Index',
-  'SPX INDEX': 'S&P 500 Index',
-  'FSSTI Index': 'Straits Times Index',
-  'HSI Index': 'Hang Seng Index',
-  'BDIY Index': 'Baltic Dry Index'
+const SECURITIES_DETAILS = {
+  'FSSTI Index': { image: StiImage, title: 'Straits Times Index', order: 0 },
+  'HSI Index': { image: HsiImage, title: 'Hang Seng Index', order: 1 },
+  'SPX INDEX': { image: SnpImage, title: 'S&P 500 Index', order: 2 },
+  'XAU Curncy': { image: GoldImage, title: 'Gold', order: 3 },
+  'COA Comdty': { image: OilImage, title: 'Brent Oil', order: 4 },
+  'GI1 Index': {
+    image: WheatImage,
+    title: 'Goldman Commodity Index',
+    order: 5
+  },
+  'BDIY Index': { image: BalticImage, title: 'Baltic Dry Index', order: 6 }
 };
 
 const DEFAULT_DATA = [
@@ -49,16 +44,16 @@ const DEFAULT_DATA = [
     IMAGE: StiImage
   },
   {
-    TITLE: 'S&P500',
-    LAST_PRICE: 3014.58,
+    TITLE: 'Hang Seng Index',
+    LAST_PRICE: 1200.51,
     NET_CHANGE: 100,
     PCT_CHANGE: 0.07,
     TIME_RETRIEVED: '10/09/18',
     IMAGE: SnpImage
   },
   {
-    TITLE: 'Hang Seng Index',
-    LAST_PRICE: 1200.51,
+    TITLE: 'S&P500',
+    LAST_PRICE: 3014.58,
     NET_CHANGE: 100,
     PCT_CHANGE: 0.07,
     TIME_RETRIEVED: '10/09/18',
@@ -73,20 +68,20 @@ const DEFAULT_DATA = [
     IMAGE: GoldImage
   },
   {
-    TITLE: 'Goldman Commodity Index',
-    LAST_PRICE: 377.01,
-    NET_CHANGE: 10,
-    PCT_CHANGE: 0.1,
-    TIME_RETRIEVED: '10/09/18',
-    IMAGE: WheatImage
-  },
-  {
     TITLE: 'Crude Oil',
     LAST_PRICE: 1100.99,
     NET_CHANGE: 100,
     PCT_CHANGE: 0.07,
     TIME_RETRIEVED: '10/09/18',
     IMAGE: OilImage
+  },
+  {
+    TITLE: 'Goldman Commodity Index',
+    LAST_PRICE: 377.01,
+    NET_CHANGE: 10,
+    PCT_CHANGE: 0.1,
+    TIME_RETRIEVED: '10/09/18',
+    IMAGE: WheatImage
   },
   {
     TITLE: 'Baltic Dry Index',
@@ -125,12 +120,16 @@ class Commodities extends Component {
             security_obj = {
               ...data[security],
               ...{
-                TITLE: SECURITIES_FULL_TITLES[security],
-                IMAGE: SECURITIES_IMAGES[security]
+                TITLE: SECURITIES_DETAILS[security]['title'],
+                IMAGE: SECURITIES_DETAILS[security]['image'],
+                ORDER: SECURITIES_DETAILS[security]['order']
               }
             };
             data_arr.push(security_obj);
           }
+          data_arr = data_arr.sort((a, b) =>
+            a.ORDER > b.ORDER ? 1 : a.ORDER < b.ORDER ? -1 : 0
+          );
           this.setState({ success: true, data: data_arr });
         })
         .catch(console.log);
