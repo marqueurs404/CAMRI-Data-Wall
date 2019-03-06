@@ -16,7 +16,7 @@ import GoldImage from '../assets/gold.png';
 import WheatImage from '../assets/wheatgoldman.png';
 import OilImage from '../assets/oil.png';
 
-const API = 'http://172.29.27.115:5000/';
+const API = `${window.location.hostname}:5000/`;
 const FETCH_INTERVAL = 1000;
 const CAROUSEL_INTERVAL = 5000;
 
